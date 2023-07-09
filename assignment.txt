@@ -1,0 +1,264 @@
+ans1)
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int arrayPairSum(vector<int>& nums) {
+    sort(nums.begin(), nums.end());
+
+    int sum = 0;
+    for (int i = 0; i < nums.size(); i += 2) {
+        sum += nums[i];
+    }
+
+    return sum;
+}
+
+int main() {
+    vector<int> nums = {1, 4, 3, 2};
+    int maxSum = arrayPairSum(nums);
+
+    cout << "Maximized sum: " << maxSum << endl;
+
+    return 0;
+}
+
+
+ans2)
+#include <iostream>
+#include <vector>
+#include <unordered_set>
+using namespace std;
+
+int distributeCandies(vector<int>& candyType) {
+    int n = candyType.size();
+    int maxEat = n / 2;
+
+    unordered_set<int> uniqueTypes;
+    for (int candy : candyType) {
+        uniqueTypes.insert(candy);
+    }
+
+    return min(maxEat, (int)uniqueTypes.size());
+}
+
+int main() {
+    vector<int> candyType = {1, 1, 2, 2, 3, 3};
+    int maxEat = distributeCandies(candyType);
+
+    cout << "Maximum number of different types of candies Alice can eat: " << maxEat << endl;
+
+    return 0;
+}
+
+
+
+ans3)
+#include <iostream>
+#include <unordered_map>
+using namespace std;
+
+int findLHS(vector<int>& nums) {
+    unordered_map<int, int> count;
+
+    for (int num : nums) {
+        count[num]++;
+    }
+
+    int longestSubsequence = 0;
+    for (auto it = count.begin(); it != count.end(); it++) {
+        int num = it->first;
+        if (count.find(num + 1) != count.end()) {
+            int subsequenceLength = it->second + count[num + 1];
+            longestSubsequence = max(longestSubsequence, subsequenceLength);
+        }
+    }
+
+    return longestSubsequence;
+}
+
+int main() {
+    vector<int> nums = {1, 3, 2, 2, 5, 2, 3, 7};
+    int longestSubsequence = findLHS(nums);
+
+    cout << "Length of the longest harmonious subsequence: " << longestSubsequence << endl;
+
+    return 0;
+}
+
+ans4)
+#include <iostream>
+#include <vector>
+using namespace std;
+
+bool canPlaceFlowers(vector<int>& flowerbed, int n) {
+    int count = 0;
+    int size = flowerbed.size();
+
+    for (int i = 0; i < size; i++) {
+        if (flowerbed[i] == 0 && (i == 0 || flowerbed[i - 1] == 0) &&
+            (i == size - 1 || flowerbed[i + 1] == 0)) {
+            flowerbed[i] = 1;
+            count++;
+
+            if (count >= n)
+                return true;
+        }
+    }
+
+    return count >= n;
+}
+
+int main() {
+    vector<int> flowerbed = {1, 0, 0, 0, 1};
+    int n = 1;
+
+    bool canPlant = canPlaceFlowers(flowerbed, n);
+
+    if (canPlant)
+        cout << "True: N new flowers can be planted without violating the no-adjacent-flowers rule." << endl;
+    else
+        cout << "False: N new flowers cannot be planted without violating the no-adjacent-flowers rule." << endl;
+
+    return 0;
+}
+
+ans 5)
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int maximumProduct(vector<int>& nums) {
+    int n = nums.size();
+
+    // Sort the array in ascending order
+    sort(nums.begin(), nums.end());
+
+    // Return the maximum of two cases:
+    // 1. The product of the last three elements
+    // 2. The product of the first two elements and the last element
+    return max(nums[n - 1] * nums[n - 2] * nums[n - 3], nums[0] * nums[1] * nums[n - 1]);
+}
+
+int main() {
+    vector<int> nums = {1, 2, 3};
+    int maxProduct = maximumProduct(nums);
+
+    cout << "Maximum product of three numbers: " << maxProduct << endl;
+
+    return 0;
+}
+
+ans6)
+#include <iostream>
+#include <vector>
+using namespace std;
+
+int search(vector<int>& nums, int target) {
+    int left = 0;
+    int right = nums.size() - 1;
+
+    while (left <= right) {
+        int mid = left + (right - left) / 2;
+
+        if (nums[mid] == target) {
+            return mid;
+        } else if (nums[mid] < target) {
+            left = mid + 1;
+        } else {
+            right = mid - 1;
+        }
+    }
+
+    return -1;
+}
+
+int main() {
+    vector<int> nums = {-1, 0, 3, 5, 9, 12};
+    int target = 9;
+
+    int index = search(nums, target);
+
+    if (index != -1)
+        cout << "Target " << target << " found at index " << index << endl;
+    else
+        cout << "Target " << target << " not found in the array" << endl;
+
+    return 0;
+}
+
+ans 7)
+#include <iostream>
+#include <vector>
+using namespace std;
+
+bool isMonotonic(vector<int>& nums) {
+    bool increasing = true;
+    bool decreasing = true;
+
+    for (int i = 1; i < nums.size(); i++) {
+        if (nums[i] < nums[i - 1]) {
+            increasing = false;
+        }
+        if (nums[i] > nums[i - 1]) {
+            decreasing = false;
+        }
+    }
+
+    return increasing || decreasing;
+}
+
+int main() {
+    vector<int> nums = {1, 2, 2, 3};
+    bool isMonotonicArray = isMonotonic(nums);
+
+    if (isMonotonicArray)
+        cout << "The given array is monotonic." << endl;
+    else
+        cout << "The given array is not monotonic." << endl;
+
+    return 0;
+}
+
+ans8)
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+int minimumDifference(vector<int>& nums, int k) {
+    int n = nums.size();
+
+    // Sort the array in ascending order
+    sort(nums.begin(), nums.end());
+
+    // Calculate the potential minimum and maximum values
+    int minVal = nums[0] + k;
+    int maxVal = nums[n - 1] - k;
+
+    // Ensure minVal is smaller or equal to maxVal
+    if (minVal > maxVal) {
+        swap(minVal, maxVal);
+    }
+
+    // Calculate the initial score
+    int score = nums[n - 1] - nums[0];
+
+    // Update the score if minVal or maxVal can be achieved
+    score = min(score, maxVal - minVal);
+
+    return score;
+}
+
+int main() {
+    vector<int> nums = {1};
+    int k = 0;
+
+    int minScore = minimumDifference(nums, k);
+
+    cout << "Minimum score of nums: " << minScore << endl;
+
+    return 0;
+}
